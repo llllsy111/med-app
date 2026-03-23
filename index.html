@@ -1,64 +1,44 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>医保报销管家-正式版</title>
+    <title>医保报销管家</title>
     <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-sdk/1.0.5/index.js"></script>
     <style>
-        body { margin: 0; display: flex; height: 100vh; background-color: #f7f9fc; font-family: sans-serif; }
-        #sidebar { width: 280px; background: white; border-right: 1px solid #e5e7eb; padding: 20px; box-sizing: border-box; }
-        #coze-chat-window { flex: 1; height: 100%; background: white; }
-        .card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .btn { width: 100%; padding: 12px; margin: 8px 0; border: none; border-radius: 8px; background: #3b82f6; color: white; cursor: pointer; font-size: 14px; }
-        .btn:hover { background: #2563eb; }
-        .status-dot { font-size: 12px; color: #6b7280; display: flex; align-items: center; gap: 5px; }
+        body { margin: 0; display: flex; height: 100vh; font-family: sans-serif; }
+        #sidebar { width: 260px; background: #f4f7f9; border-right: 1px solid #ddd; padding: 20px; }
+        #coze-chat-window { flex: 1; height: 100%; }
+        .btn { width: 100%; padding: 10px; margin: 10px 0; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
     </style>
 </head>
 <body>
-
     <div id="sidebar">
-        <h2 style="font-size: 18px; margin-bottom: 20px;">📂 档案管理端</h2>
-        <div class="card">
-            <button class="btn" onclick="triggerBot('查看我的家属档案')">👥 查看家属信息</button>
-            <button class="btn" onclick="triggerBot('我要上传发票预审')">📸 拍照上传预审</button>
-        </div>
-        <div class="card">
-            <button class="btn" style="background:#10b981" onclick="triggerBot('帮我办理医保亲属卡')">💳 亲属卡办理指引</button>
-        </div>
-        <div class="status-dot" id="status">🟡 正在连接 AI...</div>
+        <h3>档案管理</h3>
+        <button class="btn" onclick="sendMsg('查看我的家属档案')">👥 查看家属信息</button>
+        <button class="btn" onclick="sendMsg('我要上传发票预审')">📸 上传单据预审</button>
     </div>
 
     <div id="coze-chat-window"></div>
 
     <script>
-        let client = null;
-
-        window.onload = function() {
-            client = new CozeWebSDK.ChatClient({
-                config: {
-                    bot_id: '7619999434403086336', // 👈【关键】填入你获取的 appId (数字)
-                },
-                componentProps: {
-                    title: '医保报销审查官',
-                    layout: 'pc',
-                },
-                auth: {
-                    type: 'token',
-                    token: 'cztei_hApwqhA4AhS2OUrYP1CvVew9VB5Q0TImtZtv9pH3JhQkgN85QMUcB6NVGijQqeXq2', // 👈【关键】填入你在 API 管理里生成的 PAT 令牌
-                }
-            });
-
-            // 挂载
-            client.mount('#coze-chat-window');
-
-            // 监听初始化成功
-            document.getElementById('status').innerHTML = '<span style="color:green">●</span> AI 助手已就绪';
-        };
-
-        function triggerBot(text) {
-            if (client) {
-                client.sendMessage(text);
+        const client = new CozeWebSDK.ChatClient({
+            config: {
+                bot_id: '7619999434403086336', // 确认是你的 appId
+            },
+            componentProps: {
+                title: '医保报销审查官',
+                layout: 'pc',
+            },
+            auth: {
+                type: 'token',
+                token: 'pat_Enc1sQFiEz8uztSAuIa3ga1nrO1UB6nhMxmnHsYiKSYd9AJBxzQaTgiphtzRzcW9', //
             }
+        });
+
+        client.mount('#coze-chat-window');
+
+        function sendMsg(text) {
+            client.sendMessage(text);
         }
     </script>
 </body>
